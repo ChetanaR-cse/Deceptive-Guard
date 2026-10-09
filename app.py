@@ -20,7 +20,7 @@ st.markdown(css_code, unsafe_allow_html=True)
 if "scan_history" not in st.session_state:
     st.session_state.scan_history = []
 
-# Sidebar Controls
+# Sidebar Controls (MUST define region_choice FIRST before displaying metrics)
 with st.sidebar:
     st.image("https://img.icons8.com/color/96/cyber-security.png", width=60)
     st.title("Deceptive-Guard")
@@ -69,8 +69,4 @@ with st.sidebar:
             st.caption(f"Scan #{len(st.session_state.scan_history)-idx}: {scan_item}")
 
 # Hero Header Banner
-hero_html = "<div class='hero-container'><span class='badge-tag'>Track 1 - PS 01 | Google Gemma Challenge</span><h1 style='color: #ffffff; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;'>🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel</h1><p style='color: #94a3b8; font-size: 1.15rem; margin: 0; line-height: 1.6;'>Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma.</p></div>"
-st.markdown(hero_html, unsafe_allow_html=True)
-
-# Top Live Statistics Dashboard (Flattened metrics to avoid line break syntax errors)
-active_
+hero_html = "<div class='hero-container'><span class='badge-tag'>Track 1 - PS 01 | Google Gemma Challenge</span><h1 style='color: #ffffff; font-size: 2.6rem; font-weight: 80
