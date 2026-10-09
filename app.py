@@ -12,29 +12,31 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. Premium Cyber Dark Theme CSS Engine with Vibrant Colored Typography & Dynamic Background Mesh
+# 2. Premium Cyber Theme & Neon Typography CSS Engine
 css_code = """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
 
 html, body, .stApp {
     background-color: #030712 !important;
-    background-image: 
-        radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.18) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.18) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.12) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.12) 0px, transparent 50%) !important;
-    background-attachment: fixed !important;
-    color: #f8fafc !important;
+    color: #e2e8f0 !important;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
+#cyber-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
 p, span, label, li, div {
-    color: #cbd5e1 !important;
     font-size: 16px !important;
     line-height: 1.8 !important;
 }
 
-/* Color-Coded Typography Headings */
 h1 {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 800 !important;
@@ -52,7 +54,7 @@ h2, h3 {
 h4, h5, h6 {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 700 !important;
-    color: #c084fc !important;
+    color: #fbbf24 !important;
 }
 
 .block-container {
@@ -72,9 +74,9 @@ h4, h5, h6 {
 }
 
 .hero-container {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(3, 7, 18, 0.95) 100%);
+    background: rgba(11, 17, 32, 0.85);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(0, 242, 254, 0.3);
+    border: 1px solid rgba(0, 242, 254, 0.4);
     border-left: 6px solid #00f2fe;
     padding: 32px;
     border-radius: 18px;
@@ -165,45 +167,44 @@ h4, h5, h6 {
     color: #00f2fe !important;
 }
 
-/* Card Styling for Multi-Color Output */
 .card-risk {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.92);
     border-left: 6px solid #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    border: 1px solid rgba(239, 68, 68, 0.4);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.25);
 }
 
 .card-tricks {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.92);
     border-left: 6px solid #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.4);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
 }
 
 .card-laws {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.92);
     border-left: 6px solid #a855f7;
-    border: 1px solid rgba(168, 85, 247, 0.3);
+    border: 1px solid rgba(168, 85, 247, 0.4);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.25);
 }
 
 .card-complaint {
-    background: rgba(15, 23, 42, 0.9);
+    background: rgba(15, 23, 42, 0.92);
     border-left: 6px solid #4ade80;
-    border: 1px solid rgba(74, 222, 128, 0.3);
+    border: 1px solid rgba(74, 222, 128, 0.4);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2);
+    box-shadow: 0 10px 30px rgba(74, 222, 128, 0.25);
 }
 
 .section-title {
@@ -219,241 +220,68 @@ h4, h5, h6 {
 
 st.markdown(css_code, unsafe_allow_html=True)
 
-# Initialize Session Scan History
-if "scan_history" not in st.session_state:
-    st.session_state.scan_history = []
+# 3. Interactive WebGL/Canvas Matrix Mesh Background Engine
+interactive_canvas_js = """
+<canvas id="cyber-canvas"></canvas>
+<script>
+const canvas = document.getElementById('cyber-canvas');
+const ctx = canvas.getContext('2d');
 
-# Sidebar Controls
-with st.sidebar:
-    st.image("https://img.icons8.com/color/96/cyber-security.png", width=60)
-    st.title("Deceptive-Guard")
-    st.caption("Multimodal Dark Pattern Sentinel v6.0")
-    st.markdown("---")
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-    st.subheader("⚙️ Regional Scan Controls")
+const particles = [];
+const particleCount = 65;
+const mouse = { x: null, y: null, radius: 160 };
 
-    region_choice = st.selectbox(
-        "📍 Regulatory Ruleset Jurisdiction",
-        options=[
-            "🇮🇳 India (CCPA 2023 Dark Pattern Guidelines & CPA 2019)",
-            "🇺🇸 USA (FTC Act Sec 5 & ROSCA Directives)",
-            "🇪🇺 European Union (EU Digital Services Act & GDPR)",
-            "🇬🇧 United Kingdom (CMA Consumer Protection Regulations)",
-            "🌐 Global / Universal Consumer Protection Standard",
-        ],
-        index=0,
-    )
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+});
 
-    target_lang = st.selectbox(
-        "🌐 Audit Output Language",
-        options=[
-            "English",
-            "Kannada (ಕನ್ನಡ)",
-            "Hindi (हिंदी)",
-            "Spanish (Español)",
-            "French (Français)",
-            "German (Deutsch)",
-        ],
-        index=0,
-    )
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.9;
+        this.vy = (Math.random() - 0.5) * 0.9;
+        this.radius = Math.random() * 2 + 1;
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 242, 254, 0.7)';
+        ctx.fill();
+    }
+}
 
-    st.markdown("---")
-    with st.expander("🔐 API Settings"):
-        sidebar_key = st.text_input("Gemini API Key", type="password")
+for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+}
 
-    st.markdown("---")
-    st.success("🟢 Gemma Vision Engine Online")
-    st.info("⚡ Cyber Aurora Mesh Active")
-
-    if st.session_state.scan_history:
-        st.markdown("---")
-        st.markdown("### 📊 Session History Log")
-        for idx, scan_item in enumerate(reversed(st.session_state.scan_history)):
-            st.caption(f"Scan #{len(st.session_state.scan_history)-idx}: {scan_item}")
-
-# Hero Header Banner
-hero_html = """<div class="hero-container">
-    <span class="badge-tag">Track 1 - PS 01 | Google Gemma Challenge</span>
-    <h1 style="color: #00f2fe !important; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;">
-        🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel
-    </h1>
-    <p style="color: #cbd5e1 !important; font-size: 1.15rem; margin: 0; line-height: 1.6;">
-        Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma.
-    </p>
-</div>"""
-st.markdown(hero_html, unsafe_allow_html=True)
-
-# Variables derived AFTER sidebar definition
-active_flag = region_choice.split()[0]
-total_scans = str(len(st.session_state.scan_history))
-
-# Top Live Statistics Dashboard
-m1, m2, m3, m4 = st.columns(4)
-with m1:
-    st.markdown(
-        '<div class="metric-card"><div class="metric-val">gemma-4-26b</div><div class="metric-lbl">AI Core Engine</div></div>',
-        unsafe_allow_html=True,
-    )
-with m2:
-    st.markdown(
-        '<div class="metric-card"><div class="metric-val">< 2.2s</div><div class="metric-lbl">Avg Scan Latency</div></div>',
-        unsafe_allow_html=True,
-    )
-with m3:
-    st.markdown(
-        f'<div class="metric-card"><div class="metric-val">{active_flag}</div><div class="metric-lbl">Active Ruleset</div></div>',
-        unsafe_allow_html=True,
-    )
-with m4:
-    st.markdown(
-        f'<div class="metric-card"><div class="metric-val">{total_scans}</div><div class="metric-lbl">Scans Conducted</div></div>',
-        unsafe_allow_html=True,
-    )
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-# Intake Section
-st.markdown("### 📥 Step 1: Upload Interface Screenshot or Camera Feed")
-input_method = st.radio(
-    "Choose input method:",
-    ["📁 Upload Image File", "📸 Capture via Webcam"],
-    horizontal=True,
-    label_visibility="collapsed",
-)
-
-image = None
-if "Upload" in input_method:
-    uploaded_file = st.file_uploader(
-        "Drop your e-commerce checkout page, cart summary, or booking screenshot here...",
-        type=["jpg", "png", "jpeg"],
-    )
-    if uploaded_file:
-        image = Image.open(uploaded_file)
-else:
-    camera_image = st.camera_input("Capture frame")
-    if camera_image:
-        image = Image.open(camera_image)
-
-if image is not None:
-    st.markdown("---")
-    st.subheader("🎯 Target Inspection Frame")
-
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        st.image(image, caption="Ingested Target UI Evidence", use_container_width=True)
-
-    st.markdown("---")
-    if st.button("🚀 Run Deceptive-Guard Forensic Audit", use_container_width=True):
-        active_key = sidebar_key
-        if not active_key:
-            try:
-                active_key = st.secrets["GEMINI_API_KEY"]
-            except Exception:
-                pass
-
-        if not active_key:
-            st.error("⚠️ Authentication Error: Please enter your Gemini API Key in the sidebar settings.")
-        else:
-            with st.spinner("Analyzing pixels against regional consumer laws..."):
-                try:
-                    client = genai.Client(api_key=active_key)
-
-                    prompt = f"""You are Deceptive-Guard, an elite consumer protection AI powered by Google Gemma. Analyze this screenshot for online deceptive practices, hidden fees, pre-checked boxes, fake urgency countdowns, or subscription traps.
-
-CONFIGURATION RULES:
-- Target Jurisdiction Rules: Enforce regulatory policies and laws applicable in: {region_choice}.
-- Target Output Language: Provide the entire response in: {target_lang}.
-
-Format your response strictly using these four exact styled HTML card sections with vibrant color-coded text:
-
-SECTION 1:
-<div class="card-risk">
-    <div class="section-title" style="color: #f87171 !important;">🚨 SCAM RISK SCORE</div>
-    <div style="font-size: 38px; font-weight: 800; color: #ef4444 !important; margin-top: 5px; font-family: 'JetBrains Mono', monospace;">[State Percentage, e.g., 75% - HIGH RISK]</div>
-    <div style="background: #1e293b; border-radius: 10px; height: 12px; width: 100%; margin-top: 15px; overflow: hidden;">
-        <div style="background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%); height: 100%; width: 75%; border-radius: 10px;"></div>
-    </div>
-</div>
-
-SECTION 2:
-<div class="card-tricks">
-    <div class="section-title" style="color: #38bdf8 !important;">🔍 DECEPTIVE TRICKS IDENTIFIED</div>
-    <div style="color: #38bdf8 !important; font-size: 16px; line-height: 1.8;">[Provide bulleted points detailing dark patterns found in {target_lang}]</div>
-</div>
-
-SECTION 3:
-<div class="card-laws">
-    <div class="section-title" style="color: #c084fc !important;">⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS</div>
-    <div style="color: #c084fc !important; font-size: 16px; line-height: 1.8;">[Explicitly name laws or guidelines breached under {region_choice} in {target_lang}]</div>
-</div>
-
-SECTION 4:
-<div class="card-complaint">
-    <div class="section-title" style="color: #4ade80 !important;">📝 READY-TO-FILE COMPLAINT LETTER</div>
-    <div style="color: #4ade80 !important; font-size: 16px; line-height: 1.8;">[Provide a formal ready-to-copy grievance letter in {target_lang}]</div>
-</div>"""
-
-                    model_name = "gemma-4-26b-a4b-it"
-
-                    response = client.models.generate_content(
-                        model=model_name,
-                        contents=[image, prompt],
-                        config={"temperature": 0.0},
-                    )
-
-                    st.success("✅ Forensic Audit Completed Successfully!")
-
-                    st.session_state.scan_history.append(f"{active_flag} | {target_lang}")
-
-                    tab1, tab2, tab3 = st.tabs([
-                        "📊 Executive Audit Report",
-                        "📝 Formal Legal Complaint",
-                        "⚡ RAW Telemetry & Metadata",
-                    ])
-
-                    with tab1:
-                        st.markdown(response.text, unsafe_allow_html=True)
-
-                    with tab2:
-                        st.markdown("#### 📝 Copy-Ready Consumer Grievance Letter")
-                        st.caption("Clean pre-formatted text ready for submission to consumer dispute portals.")
-
-                        raw_text = response.text
-                        complaint_match = re.search(
-                            r'<div class="card-complaint">.*?<div style=".*?">(.*?)</div>\s*</div>',
-                            raw_text,
-                            re.DOTALL,
-                        )
-
-                        if complaint_match:
-                            clean_complaint = re.sub(r"<[^>]+>", "", complaint_match.group(1)).strip()
-                        else:
-                            clean_complaint = re.sub(r"<[^>]+>", "", raw_text).strip()
-
-                        st.text_area("Grievance Letter Content:", value=clean_complaint, height=360)
-
-                        st.download_button(
-                            label="📥 Download Grievance Letter (.txt)",
-                            data=clean_complaint,
-                            file_name="Deceptive_Guard_Grievance_Report.txt",
-                            mime="text/plain",
-                            use_container_width=True,
-                        )
-
-                    with tab3:
-                        st.markdown("#### ⚡ System Telemetry & Model Details")
-                        st.json({
-                            "model_engine": model_name,
-                            "sampling_temperature": 0.0,
-                            "jurisdiction_target": region_choice,
-                            "output_language": target_lang,
-                            "image_resolution": f"{image.size[0]}x{image.size[1]} px",
-                            "image_format": getattr(image, "format", "PNG"),
-                            "status": "200_OK",
-                        })
-
-                except Exception as e:
-                    st.error("❌ Forensic analysis failed. Please check your API key.")
-                    st.error(str(e))
-else:
-    st.info("ℹ️ Upload or capture an e-commerce checkout screenshot above to begin your threat audit.")
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < 130) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba
