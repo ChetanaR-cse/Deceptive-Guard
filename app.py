@@ -12,27 +12,47 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. Premium Cyber Dark Theme CSS Engine
+# 2. Premium Cyber Dark Theme CSS Engine with Vibrant Colored Typography & Dynamic Background Mesh
 css_code = """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
 
 html, body, .stApp {
     background-color: #030712 !important;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.18) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.18) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(239, 68, 68, 0.12) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.12) 0px, transparent 50%) !important;
+    background-attachment: fixed !important;
     color: #f8fafc !important;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 p, span, label, li, div {
-    color: #e2e8f0 !important;
+    color: #cbd5e1 !important;
     font-size: 16px !important;
     line-height: 1.8 !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Color-Coded Typography Headings */
+h1 {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 800 !important;
-    color: #ffffff !important;
+    color: #00f2fe !important;
     letter-spacing: -0.01em;
+}
+
+h2, h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 800 !important;
+    color: #38bdf8 !important;
+    letter-spacing: -0.01em;
+}
+
+h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 700 !important;
+    color: #c084fc !important;
 }
 
 .block-container {
@@ -45,19 +65,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [data-testid='stSidebar'] {
-    background-color: #060911 !important;
+    background-color: rgba(6, 9, 17, 0.95) !important;
     border-right: 1px solid #1e293b !important;
+    backdrop-filter: blur(12px);
     z-index: 2;
 }
 
 .hero-container {
-    background: linear-gradient(135deg, rgba(11, 19, 43, 0.9) 0%, rgba(3, 7, 18, 0.95) 100%);
-    backdrop-filter: blur(12px);
-    border: 1px solid #1e293b;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(3, 7, 18, 0.95) 100%);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 242, 254, 0.3);
     border-left: 6px solid #00f2fe;
     padding: 32px;
     border-radius: 18px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 242, 254, 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 242, 254, 0.2);
     margin-bottom: 25px;
 }
 
@@ -73,8 +94,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .metric-card {
-    background: rgba(11, 17, 32, 0.85);
-    backdrop-filter: blur(8px);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
     border: 1px solid #1e293b;
     border-radius: 14px;
     padding: 20px;
@@ -91,9 +112,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .metric-lbl {
     font-size: 0.85rem !important;
-    color: #94a3b8 !important;
+    color: #fbbf24 !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-weight: 700 !important;
 }
 
 .stButton > button {
@@ -116,15 +138,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [data-testid='stFileUploader'] {
-    background-color: rgba(11, 17, 32, 0.8) !important;
-    border: 2px dashed #1e293b !important;
+    background-color: rgba(15, 23, 42, 0.8) !important;
+    border: 2px dashed #00f2fe !important;
     border-radius: 14px !important;
     padding: 20px !important;
 }
 
 .stTabs [data-baseweb='tab-list'] {
     gap: 10px;
-    background-color: #0b1120;
+    background-color: rgba(11, 17, 32, 0.9);
     padding: 8px;
     border-radius: 12px;
     border: 1px solid #1e293b;
@@ -143,44 +165,45 @@ h1, h2, h3, h4, h5, h6 {
     color: #00f2fe !important;
 }
 
+/* Card Styling for Multi-Color Output */
 .card-risk {
-    background: rgba(11, 17, 32, 0.9);
+    background: rgba(15, 23, 42, 0.9);
     border-left: 6px solid #ef4444;
-    border: 1px solid #1e293b;
+    border: 1px solid rgba(239, 68, 68, 0.3);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
 }
 
 .card-tricks {
-    background: rgba(11, 17, 32, 0.9);
+    background: rgba(15, 23, 42, 0.9);
     border-left: 6px solid #38bdf8;
-    border: 1px solid #1e293b;
+    border: 1px solid rgba(56, 189, 248, 0.3);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
 }
 
 .card-laws {
-    background: rgba(11, 17, 32, 0.9);
+    background: rgba(15, 23, 42, 0.9);
     border-left: 6px solid #a855f7;
-    border: 1px solid #1e293b;
+    border: 1px solid rgba(168, 85, 247, 0.3);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
 }
 
 .card-complaint {
-    background: rgba(11, 17, 32, 0.9);
+    background: rgba(15, 23, 42, 0.9);
     border-left: 6px solid #4ade80;
-    border: 1px solid #1e293b;
+    border: 1px solid rgba(74, 222, 128, 0.3);
     padding: 28px;
     border-radius: 16px;
     margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(74, 222, 128, 0.15);
+    box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2);
 }
 
 .section-title {
@@ -240,7 +263,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.success("🟢 Gemma Vision Engine Online")
-    st.info("⚡ Real-time Threat Scanner Ready")
+    st.info("⚡ Cyber Aurora Mesh Active")
 
     if st.session_state.scan_history:
         st.markdown("---")
@@ -251,10 +274,10 @@ with st.sidebar:
 # Hero Header Banner
 hero_html = """<div class="hero-container">
     <span class="badge-tag">Track 1 - PS 01 | Google Gemma Challenge</span>
-    <h1 style="color: #ffffff; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;">
+    <h1 style="color: #00f2fe !important; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;">
         🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel
     </h1>
-    <p style="color: #94a3b8; font-size: 1.15rem; margin: 0; line-height: 1.6;">
+    <p style="color: #cbd5e1 !important; font-size: 1.15rem; margin: 0; line-height: 1.6;">
         Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma.
     </p>
 </div>"""
@@ -341,12 +364,12 @@ CONFIGURATION RULES:
 - Target Jurisdiction Rules: Enforce regulatory policies and laws applicable in: {region_choice}.
 - Target Output Language: Provide the entire response in: {target_lang}.
 
-Format your response strictly using these four exact styled HTML card sections:
+Format your response strictly using these four exact styled HTML card sections with vibrant color-coded text:
 
 SECTION 1:
 <div class="card-risk">
-    <div class="section-title" style="color: #f87171;">🚨 SCAM RISK SCORE</div>
-    <div style="font-size: 38px; font-weight: 800; color: #ef4444; margin-top: 5px; font-family: 'JetBrains Mono', monospace;">[State Percentage, e.g., 75% - HIGH RISK]</div>
+    <div class="section-title" style="color: #f87171 !important;">🚨 SCAM RISK SCORE</div>
+    <div style="font-size: 38px; font-weight: 800; color: #ef4444 !important; margin-top: 5px; font-family: 'JetBrains Mono', monospace;">[State Percentage, e.g., 75% - HIGH RISK]</div>
     <div style="background: #1e293b; border-radius: 10px; height: 12px; width: 100%; margin-top: 15px; overflow: hidden;">
         <div style="background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%); height: 100%; width: 75%; border-radius: 10px;"></div>
     </div>
@@ -354,20 +377,20 @@ SECTION 1:
 
 SECTION 2:
 <div class="card-tricks">
-    <div class="section-title" style="color: #38bdf8;">🔍 DECEPTIVE TRICKS IDENTIFIED</div>
-    <div style="color: #f1f5f9; font-size: 16px; line-height: 1.8;">[Provide bulleted points detailing dark patterns found in {target_lang}]</div>
+    <div class="section-title" style="color: #38bdf8 !important;">🔍 DECEPTIVE TRICKS IDENTIFIED</div>
+    <div style="color: #38bdf8 !important; font-size: 16px; line-height: 1.8;">[Provide bulleted points detailing dark patterns found in {target_lang}]</div>
 </div>
 
 SECTION 3:
 <div class="card-laws">
-    <div class="section-title" style="color: #c084fc;">⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS</div>
-    <div style="color: #f1f5f9; font-size: 16px; line-height: 1.8;">[Explicitly name laws or guidelines breached under {region_choice} in {target_lang}]</div>
+    <div class="section-title" style="color: #c084fc !important;">⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS</div>
+    <div style="color: #c084fc !important; font-size: 16px; line-height: 1.8;">[Explicitly name laws or guidelines breached under {region_choice} in {target_lang}]</div>
 </div>
 
 SECTION 4:
 <div class="card-complaint">
-    <div class="section-title" style="color: #4ade80;">📝 READY-TO-FILE COMPLAINT LETTER</div>
-    <div style="color: #e2e8f0; font-size: 16px; line-height: 1.8;">[Provide a formal ready-to-copy grievance letter in {target_lang}]</div>
+    <div class="section-title" style="color: #4ade80 !important;">📝 READY-TO-FILE COMPLAINT LETTER</div>
+    <div style="color: #4ade80 !important; font-size: 16px; line-height: 1.8;">[Provide a formal ready-to-copy grievance letter in {target_lang}]</div>
 </div>"""
 
                     model_name = "gemma-4-26b-a4b-it"
