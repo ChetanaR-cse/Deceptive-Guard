@@ -12,24 +12,15 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. Premium Cyber Theme & Neon Typography CSS Engine
+# 2. Premium Cyber Dark Theme CSS Engine
 css_code = """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
 
 html, body, .stApp {
     background-color: #030712 !important;
+    background-image: radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.15) 0px, transparent 50%) !important;
     color: #e2e8f0 !important;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-}
-
-#cyber-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
 }
 
 p, span, label, li, div {
@@ -220,68 +211,27 @@ h4, h5, h6 {
 
 st.markdown(css_code, unsafe_allow_html=True)
 
-# 3. Interactive WebGL/Canvas Matrix Mesh Background Engine
-interactive_canvas_js = """
-<canvas id="cyber-canvas"></canvas>
-<script>
-const canvas = document.getElementById('cyber-canvas');
-const ctx = canvas.getContext('2d');
+# Initialize Session Scan History
+if "scan_history" not in st.session_state:
+    st.session_state.scan_history = []
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+# Sidebar Controls
+with st.sidebar:
+    st.image("https://img.icons8.com/color/96/cyber-security.png", width=60)
+    st.title("Deceptive-Guard")
+    st.caption("Multimodal Dark Pattern Sentinel v7.0")
+    st.markdown("---")
 
-const particles = [];
-const particleCount = 65;
-const mouse = { x: null, y: null, radius: 160 };
+    st.subheader("⚙️ Regional Scan Controls")
 
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-});
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.9;
-        this.vy = (Math.random() - 0.5) * 0.9;
-        this.radius = Math.random() * 2 + 1;
-    }
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 242, 254, 0.7)';
-        ctx.fill();
-    }
-}
-
-for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            
-            if (dist < 130) {
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba
+    region_choice = st.selectbox(
+        "📍 Regulatory Ruleset Jurisdiction",
+        options=[
+            "🇮🇳 India (CCPA 2023 Dark Pattern Guidelines & CPA 2019)",
+            "🇺🇸 USA (FTC Act Sec 5 & ROSCA Directives)",
+            "🇪🇺 European Union (EU Digital Services Act & GDPR)",
+            "🇬🇧 United Kingdom (CMA Consumer Protection Regulations)",
+            "🌐 Global / Universal Consumer Protection Standard",
+        ],
+        index=0,
+    )
