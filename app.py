@@ -154,17 +154,24 @@ if image is not None:
         try:
           client = genai.Client(api_key=active_key)
 
-          # Prompt explicitly forcing policy violations and simple language
+          # Prompt now uses Markdown formatting instead of raw HTML tags
           prompt = """
                     You are an expert consumer protection AI powered by Gemma. Analyze this shopping or checkout screenshot for online tricks, hidden fees, fake urgent timers, or sneaky pre-checked boxes.
                     
                     Use clear, simple everyday language that normal people can easily understand, avoiding heavy legal jargon.
                     
-                    Format your response strictly using these exact sections:
-                    1. <h3 style="color: #ff4d4d; margin-top: 0;">🚨 Scam Risk Score</h3><div style="font-size: 38px; font-weight: 800; color: #ff4d4d; margin: 10px 0;">[State percentage, e.g., 90% - HIGH RISK CRITICAL]</div>
-                    2. <h3 style="color: #38bdf8; margin-top: 25px;">🔍 What Tricks Were Found</h3> [Explain in simple words what deceptive tricks the website is pulling]
-                    3. <h3 style="color: #fbbf24; margin-top: 25px;">⚖️ Policies & Laws Being Violated</h3> [Explicitly name and explain what consumer protection laws, FTC unfair trade rules, or e-commerce regulations this breaks in simple words]
-                    4. <h3 style="color: #34d399; margin-top: 25px;">📝 Simple Complaint Letter</h3> [Provide an easy ready-to-use copy-paste text report a consumer can file against them]
+                    Format your response strictly using these exact markdown headers:
+                    ### 🚨 Scam Risk Score
+                    [State percentage and risk level, e.g., 90% - HIGH RISK CRITICAL]
+                    
+                    ### 🔍 What Tricks Were Found
+                    [Explain in simple words what deceptive tricks the website is pulling]
+                    
+                    ### ⚖️ Policies & Laws Being Violated
+                    [Explicitly name and explain what consumer protection laws, FTC unfair trade rules, or e-commerce regulations this breaks in simple words]
+                    
+                    ### 📝 Simple Complaint Letter
+                    [Provide an easy ready-to-use copy-paste text report a consumer can file against them]
                     """
 
           response = client.models.generate_content(
@@ -172,10 +179,11 @@ if image is not None:
           )
 
           st.success("✅ Forensic Audit Completed Successfully!")
-          st.markdown(
-              f'<div class="report-card">{response.text}</div>',
-              unsafe_allow_html=True,
-          )
+
+          # Render inside the report card container cleanly using Markdown
+          st.markdown('<div class="report-card">', unsafe_allow_html=True)
+          st.markdown(response.text)
+          st.markdown("</div>", unsafe_allow_html=True)
 
         except Exception as e:
           st.error("❌ Connection error. Please check your API key.")
