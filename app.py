@@ -293,26 +293,4 @@ if image is not None:
                     prompt_parts.append("Analyze this screenshot for online deceptive practices, hidden fees, pre-checked boxes, fake urgency countdowns, or subscription traps.\n\n")
                     prompt_parts.append("CONFIGURATION RULES:\n")
                     prompt_parts.append("1. Target Jurisdiction Rules: Enforce policies applicable in: " + str(region_choice) + ".\n")
-                    prompt_parts.append("2. Target Output Language: Provide response in: " + str(target_lang) + ".\n\n")
-                    prompt_parts.append("Format your response strictly in Markdown with these four clear sections:\n\n")
-                    prompt_parts.append("## 🚨 SCAM RISK SCORE\n")
-                    prompt_parts.append("State the overall calculated risk percentage clearly in bold (e.g. **65% - MEDIUM-HIGH RISK**).\n\n")
-                    prompt_parts.append("## 🔍 DECEPTIVE TRICKS IDENTIFIED\n")
-                    prompt_parts.append("Detail every dark pattern discovered as clear bulleted points in " + str(target_lang) + ".\n\n")
-                    prompt_parts.append("## ⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS\n")
-                    prompt_parts.append("List explicit consumer protection laws or rules broken under " + str(region_choice) + " in " + str(target_lang) + ".\n\n")
-                    prompt_parts.append("## 📝 READY-TO-FILE COMPLAINT LETTER\n")
-                    prompt_parts.append("Provide a formal ready-to-copy consumer grievance letter addressed to authorities in " + str(target_lang) + ".")
-
-                    prompt = "".join(prompt_parts)
-                    model_name = "gemma-4-26b-a4b-it"
-
-                    response = client.models.generate_content(
-                        model=model_name,
-                        contents=[image, prompt],
-                        config={"temperature": 0.0},
-                    )
-
-                    st.success("✅ Forensic Audit Completed Successfully!")
-
-                    st.session_state.scan_history.append(f"{active_flag} | {target_lang}")
+                    prompt_parts.
