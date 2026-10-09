@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. CSS Engine - Short Concatenated Strings to Prevent Auto-Wrap Syntax Errors
+# 2. CSS Engine - Short Concatenated Strings
 css_lines = (
     "<style>"
     "@import url('https://fonts.googleapis.com/css2?"
@@ -132,4 +132,15 @@ css_lines = (
     "    padding: 20px !important;"
     "}"
     ".stTabs [data-baseweb='tab-list'] {"
-    "
+    "    gap: 10px;"
+    "    background-color: rgba(11, 17, 32, 0.9);"
+    "    padding: 8px;"
+    "    border-radius: 12px;"
+    "    border: 1px solid #1e293b;"
+    "}"
+    ".stTabs [data-baseweb='tab'] {"
+    "    height: 48px;"
+    "    border-radius: 8px;"
+    "    color: #94a3b8 !important;"
+    "    font-weight: 700 !important;"
+    "    font-size: 15px !important;"
