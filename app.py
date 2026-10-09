@@ -19,8 +19,17 @@ CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700;800&display=swap');
 html, body, .stApp {background:#04060f !important; font-family:'Plus Jakarta Sans',sans-serif; color:#e2e8f0;}
-.stApp p, .stApp label, .stApp li, .stApp span {font-family:'Plus Jakarta Sans',sans-serif;}
-.stApp label, .stApp .stMarkdown p {color:#cbd5e1; font-size:16px;}
+.stApp .stMarkdown p, .stApp .stMarkdown li, .stApp label p {font-family:'Plus Jakarta Sans',sans-serif;}
+.stApp .stMarkdown p, .stApp label p {color:#cbd5e1; font-size:16px;}
+/* keep Streamlit's icon font intact so icons never render as words like "add" or "upload" */
+.stApp [data-testid="stIconMaterial"], .stApp .material-symbols-rounded, .stApp span[class*="material"] {
+    font-family:'Material Symbols Rounded','Material Symbols Outlined' !important; font-size:1.4rem !important;}
+[data-testid="stFileUploaderDropzone"] {display:flex; align-items:center; gap:14px; flex-wrap:wrap;}
+[data-testid="stFileUploaderDropzone"] button {white-space:nowrap;}
+[data-testid="stFileUploaderDropzoneInstructions"] {line-height:1.4 !important;}
+[data-testid="stFileUploaderDropzoneInstructions"] span, [data-testid="stFileUploaderDropzoneInstructions"] small {display:block; line-height:1.4 !important;}
+[data-testid="stFileUploaderFile"] {align-items:center;}
+[data-testid="stFileUploaderFileName"] {overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 [data-testid="stHeader"] {background:transparent !important;}
 .block-container {position:relative; z-index:2; max-width:1200px; padding-top:1.5rem;}
 [data-testid="stSidebar"] {background:rgba(6,9,17,.94) !important; border-right:1px solid #1e293b; z-index:3;}
@@ -293,6 +302,72 @@ def build_prompt(region, lang):
 
 
 # ================================================================== RENDERING
+def section_findings(d):
+    findings = d.get("findings") or []
+    st.markdown('<div class="sec c-pink">🔍 Dark pattern findings</div>', unsafe_allow_html=True)
+    if not findings:
+        st.success("✅ No dark patterns detected in this screenshot.")
+    for f in findings:
+        sev = str(f.get("severity", "medium")).lower()
+        c = SEV_COLOR.get(sev, "#38bdf8")
+        st.markdown(H(f"""
+            <div class="fcard" style="--c:{c}">
+              <div class="fhead"><div class="ftitle">{esc(f.get("pattern"))}</div><div class="sev">{esc(sev.upper())}</div></div>
+              <div class="flabel c-cyan">👁️ Visible evidence</div><div class="ftext">{esc(f.get("evidence"))}</div>
+              <div class="flabel c-pink">🎭 Why it is tricky</div><div class="ftext">{esc(f.get("why_tricky"))}</div>
+              <div class="flabel c-violet">🧠 Psychology exploited</div><div class="ftext">{esc(f.get("psychology"))}</div>
+              <div class="flabel c-green">🛠️ How the business should fix it</div><div class="ftext">{esc(f.get("fix"))}</div>
+            </div>"""), unsafe_allow_html=True)
+
+    advice = d.get("consumer_advice") or []
+    if advice:
+        st.markdown('<div class="sec c-green">✅ What you should do now</div>', unsafe_allow_html=True)
+        for a in advice:
+            st.markdown(f'<div class="tip">{esc(a)}</div>', unsafe_allow_html=True)
+
+
+def section_laws(d):
+    st.markdown('<div class="sec c-violet">⚖️ Laws and guidelines violated</div>', unsafe_allow_html=True)
+    any_law = False
+    for f in d.get("findings") or []:
+        for law in f.get("laws") or []:
+            any_law = True
+            st.markdown(H(f"""
+                <div class="lcard">
+                  <div class="lname">{esc(law.get("law"))}</div>
+                  <div class="lsec">Section / clause: {esc(law.get("section") or "see guideline text")}</div>
+                  <div class="flabel c-amber">Triggered by</div>
+                  <div class="ftext" style="margin-bottom:8px">{esc(f.get("pattern"))}</div>
+                  <div class="flabel c-pink">How it is violated</div>
+                  <div class="ftext">{esc(law.get("how_violated"))}</div>
+                </div>"""), unsafe_allow_html=True)
+    if not any_law:
+        st.info("No legal violations were identified.")
+
+
+def section_complaint(d, uid):
+    comp = d.get("complaint") or {}
+    subject = comp.get("subject") or "Complaint regarding deceptive online practices"
+    body = (comp.get("body") or "").replace("\\n", "\n")
+    st.markdown('<div class="sec c-cyan">📨 Ready-to-file complaint letter</div>', unsafe_allow_html=True)
+    st.caption("Replace the [placeholders] with your details, attach your screenshot as evidence, then file it.")
+    full = f"Subject: {subject}\n\n{body}"
+    st.text_area("Copy-ready complaint", value=full, height=420,
+                 label_visibility="collapsed", key=f"complaint_text_{uid}")
+    st.download_button("⬇️ Download complaint (.txt)", data=full,
+                       file_name="deceptive_guard_complaint.txt", mime="text/plain",
+                       key=f"complaint_dl_{uid}")
+
+
+def section_where(region_key):
+    st.markdown('<div class="sec c-amber">🧭 Where to file this complaint</div>', unsafe_allow_html=True)
+    for name, desc in FILING.get(region_key, FILING["Global"]):
+        st.markdown(f'<div class="portal"><div class="pname">{esc(name)}</div><div class="pdesc">{esc(desc)}</div></div>',
+                    unsafe_allow_html=True)
+    st.caption("Portal details can change. Confirm on the official website before filing. "
+               "This tool gives information, not legal advice.")
+
+
 def render_report(d, region_key):
     score = max(0, min(100, int(d.get("risk_score") or 0)))
     color, level = risk_style(score)
@@ -308,67 +383,23 @@ def render_report(d, region_key):
           </div>
         </div>"""), unsafe_allow_html=True)
 
-    findings = d.get("findings") or []
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["🔍 Dark Pattern Findings", "⚖️ Law Violations", "📨 Ready-to-File Complaint", "🧭 Where To File"]
-    )
-
-    with tab1:
-        if not findings:
-            st.success("✅ No dark patterns detected in this screenshot.")
-        for f in findings:
-            sev = str(f.get("severity", "medium")).lower()
-            c = SEV_COLOR.get(sev, "#38bdf8")
-            st.markdown(H(f"""
-                <div class="fcard" style="--c:{c}">
-                  <div class="fhead"><div class="ftitle">{esc(f.get("pattern"))}</div><div class="sev">{esc(sev.upper())}</div></div>
-                  <div class="flabel c-cyan">👁️ Visible evidence</div><div class="ftext">{esc(f.get("evidence"))}</div>
-                  <div class="flabel c-pink">🎭 Why it is tricky</div><div class="ftext">{esc(f.get("why_tricky"))}</div>
-                  <div class="flabel c-violet">🧠 Psychology exploited</div><div class="ftext">{esc(f.get("psychology"))}</div>
-                  <div class="flabel c-green">🛠️ How the business should fix it</div><div class="ftext">{esc(f.get("fix"))}</div>
-                </div>"""), unsafe_allow_html=True)
-
-        advice = d.get("consumer_advice") or []
-        if advice:
-            st.markdown('<div class="sec c-green">✅ What you should do now</div>', unsafe_allow_html=True)
-            for a in advice:
-                st.markdown(f'<div class="tip">{esc(a)}</div>', unsafe_allow_html=True)
-
-    with tab2:
-        any_law = False
-        for f in findings:
-            for law in f.get("laws") or []:
-                any_law = True
-                st.markdown(H(f"""
-                    <div class="lcard">
-                      <div class="lname">{esc(law.get("law"))}</div>
-                      <div class="lsec">Section / clause: {esc(law.get("section") or "see guideline text")}</div>
-                      <div class="flabel c-amber">Triggered by</div>
-                      <div class="ftext" style="margin-bottom:8px">{esc(f.get("pattern"))}</div>
-                      <div class="flabel c-pink">How it is violated</div>
-                      <div class="ftext">{esc(law.get("how_violated"))}</div>
-                    </div>"""), unsafe_allow_html=True)
-        if not any_law:
-            st.info("No legal violations were identified.")
-
-    with tab3:
-        comp = d.get("complaint") or {}
-        subject = comp.get("subject") or "Complaint regarding deceptive online practices"
-        body = (comp.get("body") or "").replace("\\n", "\n")
-        st.markdown('<div class="sec c-cyan">📨 Complaint letter</div>', unsafe_allow_html=True)
-        st.caption("Replace the [placeholders] with your details, attach your screenshot as evidence, then file it.")
-        full = f"Subject: {subject}\n\n{body}"
-        st.text_area("Copy-ready complaint", value=full, height=420, label_visibility="collapsed")
-        st.download_button("⬇️ Download complaint (.txt)", data=full,
-                           file_name="deceptive_guard_complaint.txt", mime="text/plain")
-
-    with tab4:
-        st.markdown('<div class="sec c-amber">🧭 Where to file this complaint</div>', unsafe_allow_html=True)
-        for name, desc in FILING.get(region_key, FILING["Global"]):
-            st.markdown(f'<div class="portal"><div class="pname">{esc(name)}</div><div class="pdesc">{esc(desc)}</div></div>',
-                        unsafe_allow_html=True)
-        st.caption("Portal details can change. Confirm on the official website before filing. "
-                   "This tool gives information, not legal advice.")
+    # First tab shows EVERYTHING; the other tabs jump straight to one section.
+    t_all, t_find, t_law, t_comp, t_where = st.tabs([
+        "📋 Full Report", "🔍 Findings", "⚖️ Laws", "📨 Complaint", "🧭 Where To File",
+    ])
+    with t_all:
+        section_findings(d)
+        section_laws(d)
+        section_complaint(d, "all")
+        section_where(region_key)
+    with t_find:
+        section_findings(d)
+    with t_law:
+        section_laws(d)
+    with t_comp:
+        section_complaint(d, "tab")
+    with t_where:
+        section_where(region_key)
 
 
 # ===================================================================== SIDEBAR
