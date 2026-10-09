@@ -12,18 +12,19 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. Premium Cyber Dark Theme CSS Engine
+# 2. Premium High-Contrast Cyber Dark CSS Engine
 css_code = """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
 
 html, body, .stApp {
     background-color: #030712 !important;
     background-image: radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(124, 58, 237, 0.15) 0px, transparent 50%) !important;
-    color: #e2e8f0 !important;
+    color: #f8fafc !important;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 p, span, label, li, div {
+    color: #e2e8f0 !important;
     font-size: 16px !important;
     line-height: 1.8 !important;
 }
@@ -158,54 +159,14 @@ h4, h5, h6 {
     color: #00f2fe !important;
 }
 
-.card-risk {
-    background: rgba(15, 23, 42, 0.92);
-    border-left: 6px solid #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.4);
+.report-box {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    border-left: 6px solid #00f2fe;
     padding: 28px;
     border-radius: 16px;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.25);
-}
-
-.card-tricks {
-    background: rgba(15, 23, 42, 0.92);
-    border-left: 6px solid #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.4);
-    padding: 28px;
-    border-radius: 16px;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.25);
-}
-
-.card-laws {
-    background: rgba(15, 23, 42, 0.92);
-    border-left: 6px solid #a855f7;
-    border: 1px solid rgba(168, 85, 247, 0.4);
-    padding: 28px;
-    border-radius: 16px;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.25);
-}
-
-.card-complaint {
-    background: rgba(15, 23, 42, 0.92);
-    border-left: 6px solid #4ade80;
-    border: 1px solid rgba(74, 222, 128, 0.4);
-    padding: 28px;
-    border-radius: 16px;
-    margin-bottom: 24px;
-    box-shadow: 0 10px 30px rgba(74, 222, 128, 0.25);
-}
-
-.section-title {
-    font-size: 1.35rem !important;
-    font-weight: 800 !important;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin-top: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 </style>"""
 
@@ -219,7 +180,7 @@ if "scan_history" not in st.session_state:
 with st.sidebar:
     st.image("https://img.icons8.com/color/96/cyber-security.png", width=60)
     st.title("Deceptive-Guard")
-    st.caption("Multimodal Dark Pattern Sentinel v7.0")
+    st.caption("Multimodal Dark Pattern Sentinel v6.0")
     st.markdown("---")
 
     st.subheader("⚙️ Regional Scan Controls")
@@ -235,3 +196,136 @@ with st.sidebar:
         ],
         index=0,
     )
+
+    target_lang = st.selectbox(
+        "🌐 Audit Output Language",
+        options=[
+            "English",
+            "Kannada (ಕನ್ನಡ)",
+            "Hindi (हिंदी)",
+            "Spanish (Español)",
+            "French (Français)",
+            "German (Deutsch)",
+        ],
+        index=0,
+    )
+
+    st.markdown("---")
+    with st.expander("🔐 API Settings"):
+        sidebar_key = st.text_input("Gemini API Key", type="password")
+
+    st.markdown("---")
+    st.success("🟢 Gemma Vision Engine Online")
+    st.info("⚡ Cyber Aurora Background Active")
+
+    if st.session_state.scan_history:
+        st.markdown("---")
+        st.markdown("### 📊 Session History Log")
+        for idx, scan_item in enumerate(reversed(st.session_state.scan_history)):
+            st.caption(f"Scan #{len(st.session_state.scan_history)-idx}: {scan_item}")
+
+# Hero Header Banner
+hero_html = """<div class="hero-container">
+    <span class="badge-tag">Track 1 - PS 01 | Google Gemma Challenge</span>
+    <h1 style="color: #00f2fe !important; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;">
+        🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel
+    </h1>
+    <p style="color: #38bdf8 !important; font-size: 1.15rem; margin: 0; line-height: 1.6;">
+        Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma.
+    </p>
+</div>"""
+st.markdown(hero_html, unsafe_allow_html=True)
+
+# Variables derived AFTER sidebar definition
+active_flag = region_choice.split()[0]
+total_scans = str(len(st.session_state.scan_history))
+
+# Top Live Statistics Dashboard
+m1, m2, m3, m4 = st.columns(4)
+with m1:
+    st.markdown(
+        '<div class="metric-card"><div class="metric-val">gemma-4-26b</div><div class="metric-lbl">AI Core Engine</div></div>',
+        unsafe_allow_html=True,
+    )
+with m2:
+    st.markdown(
+        '<div class="metric-card"><div class="metric-val">< 2.2s</div><div class="metric-lbl">Avg Scan Latency</div></div>',
+        unsafe_allow_html=True,
+    )
+with m3:
+    st.markdown(
+        f'<div class="metric-card"><div class="metric-val">{active_flag}</div><div class="metric-lbl">Active Ruleset</div></div>',
+        unsafe_allow_html=True,
+    )
+with m4:
+    st.markdown(
+        f'<div class="metric-card"><div class="metric-val">{total_scans}</div><div class="metric-lbl">Scans Conducted</div></div>',
+        unsafe_allow_html=True,
+    )
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# Intake Section
+st.markdown("### 📥 Step 1: Upload Interface Screenshot or Camera Feed")
+input_method = st.radio(
+    "Choose input method:",
+    ["📁 Upload Image File", "📸 Capture via Webcam"],
+    horizontal=True,
+    label_visibility="collapsed",
+)
+
+image = None
+if "Upload" in input_method:
+    uploaded_file = st.file_uploader(
+        "Drop your e-commerce checkout page, cart summary, or booking screenshot here...",
+        type=["jpg", "png", "jpeg"],
+    )
+    if uploaded_file:
+        image = Image.open(uploaded_file)
+else:
+    camera_image = st.camera_input("Capture frame")
+    if camera_image:
+        image = Image.open(camera_image)
+
+if image is not None:
+    st.markdown("---")
+    st.subheader("🎯 Target Inspection Frame")
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image(image, caption="Ingested Target UI Evidence", use_container_width=True)
+
+    st.markdown("---")
+    if st.button("🚀 Run Deceptive-Guard Forensic Audit", use_container_width=True):
+        active_key = sidebar_key
+        if not active_key:
+            try:
+                active_key = st.secrets["GEMINI_API_KEY"]
+            except Exception:
+                pass
+
+        if not active_key:
+            st.error("⚠️ Authentication Error: Please enter your Gemini API Key in the sidebar settings.")
+        else:
+            with st.spinner("Analyzing pixels against regional consumer laws..."):
+                try:
+                    client = genai.Client(api_key=active_key)
+
+                    prompt = f"""You are Deceptive-Guard, an elite consumer protection AI powered by Google Gemma. Analyze this screenshot for online deceptive practices, hidden fees, pre-checked boxes, fake urgency countdowns, or subscription traps.
+
+CONFIGURATION RULES:
+- Target Jurisdiction Rules: Enforce regulatory policies and laws applicable in: {region_choice}.
+- Target Output Language: Provide the entire response in: {target_lang}.
+
+Format your response strictly in Markdown with these four clear sections:
+
+### 🚨 SCAM RISK SCORE
+State the overall calculated risk percentage clearly in bold (e.g. **65% - MEDIUM-HIGH RISK**).
+
+### 🔍 DECEPTIVE TRICKS IDENTIFIED
+Detail every dark pattern discovered as clear bulleted points in {target_lang}.
+
+### ⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS
+List explicit consumer protection laws or rules broken under {region_choice} in {target_lang}.
+
+### 📝 READY-
