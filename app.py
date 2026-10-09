@@ -58,19 +58,6 @@ st.markdown(
         background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
         box-shadow: 0 0 20px rgba(37, 99, 235, 0.6);
     }
-    .report-card {
-        background-color: #111827;
-        border: 1px solid #374151;
-        padding: 35px;
-        border-radius: 14px;
-        margin-top: 20px;
-        box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4);
-    }
-    .report-card p, .report-card li {
-        color: #e5e7eb !important;
-        font-size: 16px;
-        line-height: 1.8;
-    }
     </style>
 """,
     unsafe_allow_html=True,
@@ -154,7 +141,6 @@ if image is not None:
         try:
           client = genai.Client(api_key=active_key)
 
-          # Prompt now uses Markdown formatting instead of raw HTML tags
           prompt = """
                     You are an expert consumer protection AI powered by Gemma. Analyze this shopping or checkout screenshot for online tricks, hidden fees, fake urgent timers, or sneaky pre-checked boxes.
                     
@@ -180,8 +166,13 @@ if image is not None:
 
           st.success("✅ Forensic Audit Completed Successfully!")
 
-          # Render inside the report card container cleanly using Markdown
-          st.markdown('<div class="report-card">', unsafe_allow_html=True)
+          # Styled container card to give it a rich colored dark theme background
+          st.markdown(
+              """
+              <div style="background-color: #111827; border: 1px solid #374151; padding: 30px; border-radius: 14px; color: #e5e7eb; box-shadow: 0 10px 25px rgba(0,0,0,0.4); margin-top: 20px;">
+              """,
+              unsafe_allow_html=True,
+          )
           st.markdown(response.text)
           st.markdown("</div>", unsafe_allow_html=True)
 
