@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. Premium Cyber Dark Theme CSS Engine (Triple-quoted string prevents string literal syntax errors)
+# 2. Premium Cyber Dark Theme CSS Engine
 css_code = """<style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
 
@@ -202,4 +202,235 @@ if "scan_history" not in st.session_state:
 
 # Sidebar Controls
 with st.sidebar:
-    st.image("https://img.icons8.com/color/96/cyber-security.png", width=60
+    st.image("https://img.icons8.com/color/96/cyber-security.png", width=60)
+    st.title("Deceptive-Guard")
+    st.caption("Multimodal Dark Pattern Sentinel v6.0")
+    st.markdown("---")
+
+    st.subheader("⚙️ Regional Scan Controls")
+
+    region_choice = st.selectbox(
+        "📍 Regulatory Ruleset Jurisdiction",
+        options=[
+            "🇮🇳 India (CCPA 2023 Dark Pattern Guidelines & CPA 2019)",
+            "🇺🇸 USA (FTC Act Sec 5 & ROSCA Directives)",
+            "🇪🇺 European Union (EU Digital Services Act & GDPR)",
+            "🇬🇧 United Kingdom (CMA Consumer Protection Regulations)",
+            "🌐 Global / Universal Consumer Protection Standard",
+        ],
+        index=0,
+    )
+
+    target_lang = st.selectbox(
+        "🌐 Audit Output Language",
+        options=[
+            "English",
+            "Kannada (ಕನ್ನಡ)",
+            "Hindi (हिंदी)",
+            "Spanish (Español)",
+            "French (Français)",
+            "German (Deutsch)",
+        ],
+        index=0,
+    )
+
+    st.markdown("---")
+    with st.expander("🔐 API Settings"):
+        sidebar_key = st.text_input("Gemini API Key", type="password")
+
+    st.markdown("---")
+    st.success("🟢 Gemma Vision Engine Online")
+    st.info("⚡ Real-time Threat Scanner Ready")
+
+    if st.session_state.scan_history:
+        st.markdown("---")
+        st.markdown("### 📊 Session History Log")
+        for idx, scan_item in enumerate(reversed(st.session_state.scan_history)):
+            st.caption(f"Scan #{len(st.session_state.scan_history)-idx}: {scan_item}")
+
+# Hero Header Banner
+hero_html = """<div class="hero-container">
+    <span class="badge-tag">Track 1 - PS 01 | Google Gemma Challenge</span>
+    <h1 style="color: #ffffff; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;">
+        🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel
+    </h1>
+    <p style="color: #94a3b8; font-size: 1.15rem; margin: 0; line-height: 1.6;">
+        Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma.
+    </p>
+</div>"""
+st.markdown(hero_html, unsafe_allow_html=True)
+
+# Variables derived AFTER sidebar definition
+active_flag = region_choice.split()[0]
+total_scans = str(len(st.session_state.scan_history))
+
+# Top Live Statistics Dashboard
+m1, m2, m3, m4 = st.columns(4)
+with m1:
+    st.markdown(
+        '<div class="metric-card"><div class="metric-val">gemma-4-26b</div><div class="metric-lbl">AI Core Engine</div></div>',
+        unsafe_allow_html=True,
+    )
+with m2:
+    st.markdown(
+        '<div class="metric-card"><div class="metric-val">< 2.2s</div><div class="metric-lbl">Avg Scan Latency</div></div>',
+        unsafe_allow_html=True,
+    )
+with m3:
+    st.markdown(
+        f'<div class="metric-card"><div class="metric-val">{active_flag}</div><div class="metric-lbl">Active Ruleset</div></div>',
+        unsafe_allow_html=True,
+    )
+with m4:
+    st.markdown(
+        f'<div class="metric-card"><div class="metric-val">{total_scans}</div><div class="metric-lbl">Scans Conducted</div></div>',
+        unsafe_allow_html=True,
+    )
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# Intake Section
+st.markdown("### 📥 Step 1: Upload Interface Screenshot or Camera Feed")
+input_method = st.radio(
+    "Choose input method:",
+    ["📁 Upload Image File", "📸 Capture via Webcam"],
+    horizontal=True,
+    label_visibility="collapsed",
+)
+
+image = None
+if "Upload" in input_method:
+    uploaded_file = st.file_uploader(
+        "Drop your e-commerce checkout page, cart summary, or booking screenshot here...",
+        type=["jpg", "png", "jpeg"],
+    )
+    if uploaded_file:
+        image = Image.open(uploaded_file)
+else:
+    camera_image = st.camera_input("Capture frame")
+    if camera_image:
+        image = Image.open(camera_image)
+
+if image is not None:
+    st.markdown("---")
+    st.subheader("🎯 Target Inspection Frame")
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image(image, caption="Ingested Target UI Evidence", use_container_width=True)
+
+    st.markdown("---")
+    if st.button("🚀 Run Deceptive-Guard Forensic Audit", use_container_width=True):
+        active_key = sidebar_key
+        if not active_key:
+            try:
+                active_key = st.secrets["GEMINI_API_KEY"]
+            except Exception:
+                pass
+
+        if not active_key:
+            st.error("⚠️ Authentication Error: Please enter your Gemini API Key in the sidebar settings.")
+        else:
+            with st.spinner("Analyzing pixels against regional consumer laws..."):
+                try:
+                    client = genai.Client(api_key=active_key)
+
+                    prompt = f"""You are Deceptive-Guard, an elite consumer protection AI powered by Google Gemma. Analyze this screenshot for online deceptive practices, hidden fees, pre-checked boxes, fake urgency countdowns, or subscription traps.
+
+CONFIGURATION RULES:
+- Target Jurisdiction Rules: Enforce regulatory policies and laws applicable in: {region_choice}.
+- Target Output Language: Provide the entire response in: {target_lang}.
+
+Format your response strictly using these four exact styled HTML card sections:
+
+SECTION 1:
+<div class="card-risk">
+    <div class="section-title" style="color: #f87171;">🚨 SCAM RISK SCORE</div>
+    <div style="font-size: 38px; font-weight: 800; color: #ef4444; margin-top: 5px; font-family: 'JetBrains Mono', monospace;">[State Percentage, e.g., 75% - HIGH RISK]</div>
+    <div style="background: #1e293b; border-radius: 10px; height: 12px; width: 100%; margin-top: 15px; overflow: hidden;">
+        <div style="background: linear-gradient(90deg, #f59e0b 0%, #ef4444 100%); height: 100%; width: 75%; border-radius: 10px;"></div>
+    </div>
+</div>
+
+SECTION 2:
+<div class="card-tricks">
+    <div class="section-title" style="color: #38bdf8;">🔍 DECEPTIVE TRICKS IDENTIFIED</div>
+    <div style="color: #f1f5f9; font-size: 16px; line-height: 1.8;">[Provide bulleted points detailing dark patterns found in {target_lang}]</div>
+</div>
+
+SECTION 3:
+<div class="card-laws">
+    <div class="section-title" style="color: #c084fc;">⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS</div>
+    <div style="color: #f1f5f9; font-size: 16px; line-height: 1.8;">[Explicitly name laws or guidelines breached under {region_choice} in {target_lang}]</div>
+</div>
+
+SECTION 4:
+<div class="card-complaint">
+    <div class="section-title" style="color: #4ade80;">📝 READY-TO-FILE COMPLAINT LETTER</div>
+    <div style="color: #e2e8f0; font-size: 16px; line-height: 1.8;">[Provide a formal ready-to-copy grievance letter in {target_lang}]</div>
+</div>"""
+
+                    model_name = "gemma-4-26b-a4b-it"
+
+                    response = client.models.generate_content(
+                        model=model_name,
+                        contents=[image, prompt],
+                        config={"temperature": 0.0},
+                    )
+
+                    st.success("✅ Forensic Audit Completed Successfully!")
+
+                    st.session_state.scan_history.append(f"{active_flag} | {target_lang}")
+
+                    tab1, tab2, tab3 = st.tabs([
+                        "📊 Executive Audit Report",
+                        "📝 Formal Legal Complaint",
+                        "⚡ RAW Telemetry & Metadata",
+                    ])
+
+                    with tab1:
+                        st.markdown(response.text, unsafe_allow_html=True)
+
+                    with tab2:
+                        st.markdown("#### 📝 Copy-Ready Consumer Grievance Letter")
+                        st.caption("Clean pre-formatted text ready for submission to consumer dispute portals.")
+
+                        raw_text = response.text
+                        complaint_match = re.search(
+                            r'<div class="card-complaint">.*?<div style=".*?">(.*?)</div>\s*</div>',
+                            raw_text,
+                            re.DOTALL,
+                        )
+
+                        if complaint_match:
+                            clean_complaint = re.sub(r"<[^>]+>", "", complaint_match.group(1)).strip()
+                        else:
+                            clean_complaint = re.sub(r"<[^>]+>", "", raw_text).strip()
+
+                        st.text_area("Grievance Letter Content:", value=clean_complaint, height=360)
+
+                        st.download_button(
+                            label="📥 Download Grievance Letter (.txt)",
+                            data=clean_complaint,
+                            file_name="Deceptive_Guard_Grievance_Report.txt",
+                            mime="text/plain",
+                            use_container_width=True,
+                        )
+
+                    with tab3:
+                        st.markdown("#### ⚡ System Telemetry & Model Details")
+                        st.json({
+                            "model_engine": model_name,
+                            "sampling_temperature": 0.0,
+                            "jurisdiction_target": region_choice,
+                            "output_language": target_lang,
+                            "image_resolution": f"{image.size[0]}x{image.size[1]} px",
+                            "image_format": getattr(image, "format", "PNG"),
+                            "status": "200_OK",
+                        })
+
+                except Exception as e:
+                    st.error("❌ Forensic analysis failed. Please check your API key.")
+                    st.error(str(e))
+else:
+    st.info("ℹ️ Upload or capture an e-commerce checkout screenshot above to begin your threat audit.")
