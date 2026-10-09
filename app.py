@@ -75,37 +75,10 @@ st.markdown(hero_html, unsafe_allow_html=True)
 # Top Live Statistics Dashboard
 m1, m2, m3, m4 = st.columns(4)
 with m1:
-    st.markdown(
-        '<div class="metric-card"><div class="metric-val">gemma-4-26b</div><div class="metric-lbl">AI Core Engine</div></div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="metric-card"><div class="metric-val">gemma-4-26b</div><div class="metric-lbl">AI Core Engine</div></div>', unsafe_allow_html=True)
 with m2:
-    st.markdown(
-        '<div class="metric-card"><div class="metric-val">< 2.2s</div><div class="metric-lbl">Avg Scan Latency</div></div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="metric-card"><div class="metric-val">< 2.2s</div><div class="metric-lbl">Avg Scan Latency</div></div>', unsafe_allow_html=True)
 with m3:
-    st.markdown(
-        f'<div class="metric-card"><div class="metric-val">{region_choice.split()[0]}</div><div class="metric-lbl">Active Ruleset</div></div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown(f'<div class="metric-card"><div class="metric-val">{region_choice.split()[0]}</div><div class="metric-lbl">Active Ruleset</div></div>', unsafe_allow_html=True)
 with m4:
-    st.markdown(
-        f'<div class="metric-card"><div class="metric-val">{len(st.session_state.scan_history)}</div><div class="metric-lbl">Scans Conducted</div></div>',
-        unsafe_allow_html=True,
-    )
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-# Intake Section
-st.markdown("### 📥 Step 1: Upload Interface Screenshot or Camera Feed")
-input_method = st.radio(
-    "Choose input method:",
-    ["📁 Upload Image File", "📸 Capture via Webcam"],
-    horizontal=True,
-    label_visibility="collapsed",
-)
-
-image = None
-if "Upload" in input_method:
-    uploaded_file = st.file_uploader(
+    st.markdown(f'<div class="metric-card"><div class="metric-val">{len(
