@@ -3,9 +3,9 @@ from PIL import Image
 from google import genai
 import streamlit as st
 
-# 1. Page Configuration & Favicon
+# 1. Page Configuration
 st.set_page_config(
-    page_title="Deceptive-Guard | AI UI Trap & Scam Sentinel",
+    page_title="Deceptive-Guard | Enterprise Dark Pattern Sentinel",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -15,11 +15,14 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Global Base Reset & Fonts */
+    /* Global Base & Animated Grid Background */
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
     html, body, .stApp {
-        background-color: #05070c !important;
+        background-color: #05070e !important;
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(0, 242, 254, 0.08) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(112, 0, 255, 0.08) 0px, transparent 50%);
         color: #f1f5f9 !important;
         font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     }
@@ -29,7 +32,7 @@ st.markdown(
         color: #e2e8f0;
     }
 
-    /* Container Constraints */
+    /* Main Container Padding */
     .block-container {
         max-width: 1200px;
         padding-top: 1.5rem;
@@ -37,20 +40,20 @@ st.markdown(
         margin: 0 auto;
     }
 
-    /* Sidebar Dark Customization */
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #080c14 !important;
+        background-color: #070a12 !important;
         border-right: 1px solid #1e293b !important;
     }
 
     /* Hero Banner Styling with Neon Glow */
     .hero-container {
-        background: linear-gradient(135deg, #0b1329 0%, #080e1e 100%);
+        background: linear-gradient(135deg, #0f172a 0%, #090e1a 100%);
         border: 1px solid #1e293b;
         border-left: 6px solid #00f2fe;
         padding: 32px;
         border-radius: 18px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 242, 254, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 242, 254, 0.15);
         margin-bottom: 25px;
     }
 
@@ -115,7 +118,7 @@ st.markdown(
         padding: 18px !important;
     }
 
-    /* Streamlit Tabs Styling */
+    /* Streamlit Tabs Customization */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
         background-color: #0b1120;
@@ -137,37 +140,58 @@ st.markdown(
         color: #00f2fe !important;
     }
 
-    /* Report Card Outputs */
-    .report-card {
-        background-color: #0b1120 !important;
-        border: 1px solid #1e293b !important;
-        border-top: 4px solid #00f2fe !important;
-        padding: 30px !important;
-        border-radius: 16px !important;
-        margin-top: 20px !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8) !important;
+    /* Styled Audit Report Cards */
+    .card-risk {
+        background: #0f172a;
+        border-left: 6px solid #ef4444;
+        border: 1px solid #1e293b;
+        padding: 24px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(239, 68, 68, 0.15);
+    }
+    .card-tricks {
+        background: #0f172a;
+        border-left: 6px solid #38bdf8;
+        border: 1px solid #1e293b;
+        padding: 24px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.15);
+    }
+    .card-laws {
+        background: #0f172a;
+        border-left: 6px solid #a855f7;
+        border: 1px solid #1e293b;
+        padding: 24px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(168, 85, 247, 0.15);
+    }
+    .card-complaint {
+        background: #0f172a;
+        border-left: 6px solid #4ade80;
+        border: 1px solid #1e293b;
+        padding: 24px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(74, 222, 128, 0.15);
     }
 
-    .report-card h3 {
-        color: #00f2fe !important;
-        font-size: 1.3rem !important;
-        margin-top: 22px !important;
-        margin-bottom: 12px !important;
-        border-bottom: 1px solid #1e293b;
-        padding-bottom: 8px;
-    }
-
-    .report-card p, .report-card li {
-        color: #cbd5e1 !important;
-        font-size: 15px !important;
-        line-height: 1.8 !important;
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
     </style>
 """,
     unsafe_allow_html=True,
 )
 
-# Initialize Session Scan History
+# Initialize Session History
 if "scan_history" not in st.session_state:
   st.session_state.scan_history = []
 
@@ -175,25 +199,25 @@ if "scan_history" not in st.session_state:
 with st.sidebar:
   st.image("https://img.icons8.com/color/96/cyber-security.png", width=60)
   st.title("Deceptive-Guard")
-  st.caption("Multimodal Consumer Shield v2.0")
+  st.caption("Multimodal Dark Pattern Sentinel v3.0")
   st.markdown("---")
 
   st.subheader("⚙️ Regional Scan Controls")
 
-  # NEW FEATURE 1: Jurisdiction & Legal Framework Selector
+  # Jurisdiction Selector
   region_choice = st.selectbox(
-      "📍 Target Jurisdiction & Regulatory Rules",
+      "📍 Regulatory Ruleset Jurisdiction",
       options=[
-          "🇮🇳 India (CCPA 2023 Dark Pattern Guidelines & Consumer Protection Act)",
-          "🇺🇸 USA (FTC Act Sec 5 & ROSCA Compliance Rules)",
-          "🇪🇺 European Union (EU Digital Services Act & GDPR Provisions)",
+          "🇮🇳 India (CCPA 2023 Dark Pattern Guidelines & CPA 2019)",
+          "🇺🇸 USA (FTC Act Sec 5 & ROSCA Directives)",
+          "🇪🇺 European Union (EU Digital Services Act & GDPR)",
           "🇬🇧 United Kingdom (CMA Consumer Protection Regulations)",
-          "🌐 Global / Universal Consumer Protection Framework",
+          "🌐 Global / Universal Consumer Protection Standard",
       ],
       index=0,
   )
 
-  # NEW FEATURE 2: Multilingual Language Selector
+  # Multilingual Language Selector
   target_lang = st.selectbox(
       "🌐 Audit Output Language",
       options=[
@@ -208,17 +232,16 @@ with st.sidebar:
   )
 
   st.markdown("---")
-  with st.expander("🔐 API Authentication"):
+  with st.expander("🔐 API Settings"):
     sidebar_key = st.text_input("Gemini API Key", type="password")
 
   st.markdown("---")
   st.success("🟢 Gemma Vision Engine Online")
-  st.info("⚡ Real-time OCR + Pixel Analysis Active")
+  st.info("⚡ Multimodal Threat Scanner Ready")
 
-  # NEW FEATURE 3: Live Session History Counter
   if st.session_state.scan_history:
     st.markdown("---")
-    st.markdown("### 📊 Session Scan Log")
+    st.markdown("### 📊 Session History Log")
     for idx, scan_item in enumerate(reversed(st.session_state.scan_history)):
       st.caption(f"Scan #{len(st.session_state.scan_history)-idx}: {scan_item}")
 
@@ -231,14 +254,14 @@ st.markdown(
             🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel
         </h1>
         <p style="color: #94a3b8; font-size: 1.1rem; margin: 0; line-height: 1.5;">
-            Detect sneaky e-commerce traps, hidden subscriptions, fake urgency countdowns, and regulatory compliance breaches instantly powered by Google Gemma multimodal vision.
+            Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma.
         </p>
     </div>
 """,
     unsafe_allow_html=True,
 )
 
-# Top Live Statistics Row
+# Top Live Statistics Dashboard
 m1, m2, m3, m4 = st.columns(4)
 with m1:
   st.markdown(
@@ -249,7 +272,7 @@ with m1:
   )
 with m2:
   st.markdown(
-      '<div class="metric-card"><div class="metric-val">< 2.5s</div><div'
+      '<div class="metric-card"><div class="metric-val">< 2.2s</div><div'
       ' class="metric-lbl">Avg Scan Latency</div></div>',
       unsafe_allow_html=True,
   )
@@ -257,21 +280,21 @@ with m3:
   st.markdown(
       f'<div class="metric-card"><div'
       f' class="metric-val">{region_choice.split()[0]}</div><div'
-      ' class="metric-lbl">Active Region</div></div>',
+      ' class="metric-lbl">Active Ruleset</div></div>',
       unsafe_allow_html=True,
   )
 with m4:
   st.markdown(
       f'<div class="metric-card"><div'
       f' class="metric-val">{len(st.session_state.scan_history)}</div><div'
-      ' class="metric-lbl">Scans Completed</div></div>',
+      ' class="metric-lbl">Scans Conducted</div></div>',
       unsafe_allow_html=True,
   )
 
 st.markdown("<br>", unsafe_allow_html=True)
 
 # Intake Section
-st.markdown("### 📥 Step 1: Upload Interface Screenshot or Live Photo")
+st.markdown("### 📥 Step 1: Upload Interface Screenshot or Camera Feed")
 input_method = st.radio(
     "Choose input method:",
     ["📁 Upload Image File", "📸 Capture via Webcam"],
@@ -282,123 +305,4 @@ input_method = st.radio(
 image = None
 if "Upload" in input_method:
   uploaded_file = st.file_uploader(
-      "Drop your checkout page, cart summary, or subscription modal screenshot"
-      " here...",
-      type=["jpg", "png", "jpeg"],
-  )
-  if uploaded_file:
-    image = Image.open(uploaded_file)
-else:
-  camera_image = st.camera_input("Capture frame")
-  if camera_image:
-    image = Image.open(camera_image)
-
-if image is not None:
-  st.markdown("---")
-  st.subheader("🎯 Evidence Stream Inspection")
-
-  col1, col2, col3 = st.columns([1, 2, 1])
-  with col2:
-    st.image(
-        image,
-        caption="Ingested Target UI Frame",
-        use_container_width=True,
-    )
-
-  st.markdown("---")
-  if st.button("🚀 Run Deceptive-Guard Forensic Audit", use_container_width=True):
-    active_key = sidebar_key
-    if not active_key:
-      try:
-        active_key = st.secrets["GEMINI_API_KEY"]
-      except Exception:
-        pass
-
-    if not active_key:
-      st.error(
-          "⚠️ Authentication Error: Please enter your Gemini API Key in the"
-          " sidebar settings."
-      )
-    else:
-      with st.spinner(
-          f"Executing multi-vector audit against {region_choice.split('(')[0]} rules in"
-          f" {target_lang}..."
-      ):
-        try:
-          client = genai.Client(api_key=active_key)
-
-          # Dynamic Prompt Tailored to Selected Jurisdiction & Language
-          prompt = f"""
-                    You are Deceptive-Guard, an elite consumer protection AI powered by Google Gemma. 
-                    Analyze this screenshot for online deceptive practices, hidden fees, pre-checked boxes, fake countdown timers, or cancellation traps.
-
-                    CONFIGURATION RULES:
-                    - Target Jurisdiction Rules: Enforce regulatory policies and laws applicable in: {region_choice}.
-                    - Target Output Language: Provide the entire response in: {target_lang}.
-
-                    Format your response strictly using these exact HTML/Markdown sections:
-                    1. <h3>🚨 SCAM RISK SCORE</h3><div style="font-size: 38px; font-weight: 800; color: #ff4d4d; margin: 10px 0;">[State Risk Percentage, e.g., 92% - HIGH RISK CRITICAL]</div>
-                    2. <h3>🔍 DECEPTIVE TRICKS IDENTIFIED</h3> [Provide bulleted breakdowns of visual dark patterns found on the page in simple terms]
-                    3. <h3>⚖️ SPECIFIC LEGAL & REGULATORY VIOLATIONS</h3> [Explicitly name laws, consumer protection clauses, or trade guidelines breached in {region_choice}]
-                    4. <h3>📝 READY-TO-FILE COMPLAINT LETTER</h3> [Generate a complete, ready-to-copy grievance complaint letter addressed to relevant authorities or the company support team]
-                    """
-
-          response = client.models.generate_content(
-              model="gemma-4-26b-a4b-it", contents=[image, prompt]
-          )
-
-          st.success("✅ Forensic Scan Completed Successfully!")
-
-          # Update Session History
-          st.session_state.scan_history.append(
-              f"{region_choice.split()[0]} | {target_lang}"
-          )
-
-          # Tabbed Interactive Output Dashboard
-          tab1, tab2, tab3 = st.tabs([
-              "📊 Executive Audit Report",
-              "📝 Formal Legal Complaint",
-              "⚡ RAW Telemetry & Code",
-          ])
-
-          with tab1:
-            st.markdown('<div class="report-card">', unsafe_allow_html=True)
-            st.markdown(response.text)
-            st.markdown("</div>", unsafe_allow_html=True)
-
-          with tab2:
-            st.markdown(
-                "#### 📝 Auto-Generated Consumer Grievance Complaint"
-            )
-            st.caption(
-                "Copy this pre-formatted complaint letter directly to file with"
-                " consumer courts or bank dispute teams."
-            )
-
-            # Extract complaint section or output full text for simple copy
-            complaint_text = response.text
-            st.text_area(
-                "Copy-Paste Ready Complaint Text:",
-                value=complaint_text,
-                height=320,
-            )
-
-          with tab3:
-            st.markdown("#### ⚡ System Telemetry & Model Metadata")
-            st.json({
-                "model_engine": "gemma-4-26b-a4b-it",
-                "jurisdiction_target": region_choice,
-                "output_language": target_lang,
-                "image_resolution": f"{image.size[0]}x{image.size[1]} px",
-                "image_format": image.format,
-                "status": "200_OK",
-            })
-
-        except Exception as e:
-          st.error("❌ Forensic analysis failed. Please verify your API key.")
-          st.error(str(e))
-else:
-  st.info(
-      "ℹ️ Ingest an e-commerce checkout screenshot or snapshot above to begin"
-      " your threat audit."
-  )
+      "Drop
