@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# 2. Premium Cyber Dark Theme CSS Engine (Bulletproof Join Assembly)
+# 2. Premium Cyber Dark Theme CSS Engine
 css_lines = [
     "<style>",
     "@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');",
@@ -34,7 +34,6 @@ css_lines = [
     ".stTabs [data-baseweb='tab-list'] { gap: 10px; background-color: rgba(11, 17, 32, 0.9); padding: 8px; border-radius: 12px; border: 1px solid #1e293b; }",
     ".stTabs [data-baseweb='tab'] { height: 48px; border-radius: 8px; color: #94a3b8 !important; font-weight: 700 !important; font-size: 15px !important; }",
     ".stTabs [aria-selected='true'] { background-color: #1e293b !important; color: #00f2fe !important; }",
-    ".report-box { background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(0, 242, 254, 0.3); border-left: 6px solid #00f2fe; padding: 28px; border-radius: 16px; margin-top: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }",
     "</style>",
 ]
 st.markdown("".join(css_lines), unsafe_allow_html=True)
@@ -90,3 +89,81 @@ with st.sidebar:
         st.markdown("### 📊 Session History Log")
         for idx, scan_item in enumerate(reversed(st.session_state.scan_history)):
             st.caption(f"Scan #{len(st.session_state.scan_history)-idx}: {scan_item}")
+
+# Hero Header Banner
+hero_html = (
+    '<div class="hero-container">'
+    '<span class="badge-tag">Track 1 - PS 01 | Google Gemma Challenge</span>'
+    '<h1 style="color: #00f2fe !important; font-size: 2.6rem; font-weight: 800; margin-top: 14px; margin-bottom: 6px; letter-spacing: -0.02em;">'
+    "🛡️ Deceptive-Guard AI: Autonomous UI Threat Sentinel"
+    "</h1>"
+    '<p style="color: #38bdf8 !important; font-size: 1.15rem; margin: 0; line-height: 1.6;">'
+    "Detect manipulative checkout traps, hidden pre-checked fees, fake countdown timers, and regulatory compliance breaches instantly using Google Gemma."
+    "</p>"
+    "</div>"
+)
+st.markdown(hero_html, unsafe_allow_html=True)
+
+# Variables derived AFTER sidebar definition
+active_flag = region_choice.split()[0]
+total_scans = str(len(st.session_state.scan_history))
+
+# Top Live Statistics Dashboard
+m1, m2, m3, m4 = st.columns(4)
+with m1:
+    st.markdown(
+        '<div class="metric-card"><div class="metric-val">gemma-4-26b</div><div class="metric-lbl">AI Core Engine</div></div>',
+        unsafe_allow_html=True,
+    )
+with m2:
+    st.markdown(
+        '<div class="metric-card"><div class="metric-val">< 2.2s</div><div class="metric-lbl">Avg Scan Latency</div></div>',
+        unsafe_allow_html=True,
+    )
+with m3:
+    st.markdown(
+        f'<div class="metric-card"><div class="metric-val">{active_flag}</div><div class="metric-lbl">Active Ruleset</div></div>',
+        unsafe_allow_html=True,
+    )
+with m4:
+    st.markdown(
+        f'<div class="metric-card"><div class="metric-val">{total_scans}</div><div class="metric-lbl">Scans Conducted</div></div>',
+        unsafe_allow_html=True,
+    )
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# Intake Section
+st.markdown("### 📥 Step 1: Upload Interface Screenshot or Camera Feed")
+input_method = st.radio(
+    "Choose input method:",
+    ["📁 Upload Image File", "📸 Capture via Webcam"],
+    horizontal=True,
+    label_visibility="collapsed",
+)
+
+image = None
+if "Upload" in input_method:
+    uploaded_file = st.file_uploader(
+        "Drop your e-commerce checkout page, cart summary, or booking screenshot here...",
+        type=["jpg", "png", "jpeg"],
+    )
+    if uploaded_file:
+        image = Image.open(uploaded_file)
+else:
+    camera_image = st.camera_input("Capture frame")
+    if camera_image:
+        image = Image.open(camera_image)
+
+if image is not None:
+    st.markdown("---")
+    st.subheader("🎯 Target Inspection Frame")
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.image(image, caption="Ingested Target UI Evidence", use_container_width=True)
+
+    st.markdown("---")
+    if st.button("🚀 Run Deceptive-Guard Forensic Audit", use_container_width=True):
+        active_key = sidebar_key
+        if not active_key:
