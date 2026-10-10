@@ -175,7 +175,7 @@ def list_models(api_key):
     for m in client.models.list():
         actions = getattr(m, "supported_actions", None) or []
         model_name=m.name.replace("models/","")
-        if "generateContent" in actions:
+        if "generateContent" in actions and "gemma" in model_name.lower():
             names.append(model_name)
     if not names:
         names=["gemma-4-26b-a4b-it"]
