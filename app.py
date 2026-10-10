@@ -174,8 +174,11 @@ def list_models(api_key):
     names = []
     for m in client.models.list():
         actions = getattr(m, "supported_actions", None) or []
+        model_name=m.name.replace("models/","")
         if "generateContent" in actions:
-            names.append(m.name.replace("models/", ""))
+            names.append(model_name)
+    if not names:
+        names=["gemma-4-26b-a4b-it"]
     return sorted(names)
 
 
